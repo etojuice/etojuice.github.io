@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Pixel walk calculator???</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="script/game.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="main">
+			<h1>Pixel walk calculator???</h1>
+			<div class="panel">
+				<ul>
+					<li><input type="checkbox" name="" id="check1" class="checkLabel" onclick="SetMode(1)"><label class="panel-label" for="check1">Jump?</label></li>
+					<li><input type="checkbox" name="" id="check2" class="checkLabel" onclick="SetMode(2)"><label class="panel-label" for="check2">Fall?</label></li>
+					<li><input type="checkbox" name="" id="check3" class="checkLabel" onclick="SetMode(3)"><label class="panel-label" for="check3">Doubleduck?</label></li>
+					<li><button type="submit" class="btn" onclick="StartGame(gameMode)">Go?</button></li>
+				</ul>
+				<ul>
+				<li><input type="checkbox" name="" id="check4" class="checkLabel" onclick="SetMode(4)"><label class="panel-label" for="check4">Bruteforce height by stamina</label></li>
+				<li><input type="text" name="" id="input-height" placeholder="height"></li>
+				</ul>
+			</div>
+			<div id="output">Hi</div>
+		</div>
+	</div>
+	<script>
+		var gameMode = 0;
+		SetMode(1);
+
+		function SetMode(check) {
+			gameMode = check;
+
+			var check1 = document.getElementById("check1");
+			var check2 = document.getElementById("check2");
+			var check3 = document.getElementById("check3");
+			var check4 = document.getElementById("check4");
+
+			switch(check) {
+				case 1:
+					check1.checked = true;
+					check2.checked = false;
+					check3.checked = false;
+					check4.checked = false;
+					break;
+				case 2:
+					check1.checked = false;
+					check2.checked = true;
+					check3.checked = false;
+					check4.checked = false;
+					break;
+				case 3:
+					check1.checked = false;
+					check2.checked = false;
+					check3.checked = true;
+					check4.checked = false;
+					break;
+				case 4:
+					check1.checked = true;
+					check2.checked = false;
+					check3.checked = false;
+					check4.checked = true;
+			}
+		}
+
+		function StartGame(mode) {
+			var output = document.getElementById("output");
+
+			var game = new Game();
+			game.Run(mode);
+
+			output.innerHTML = game.log;
+		}
+	</script>
+</body>
+</html>
