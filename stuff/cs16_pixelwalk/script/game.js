@@ -65,7 +65,7 @@ var Game = function() {
 			var neededHeight = Number(document.getElementById("input-height").value);
 			var endWhileLoop = false;
 
-			this.log = "<table><tr><td>Stamina @ Jump</td></tr>";
+			this.log = "<table><tr><th>Stamina @ Jump</th><th>Frames after last jump</th></tr>";
 			for(let stamina = 1305.789429; stamina > 0.0; stamina -= 10.0) {
 				if(stamina <= 10.0) {
 					stamina = 0.0;
@@ -81,10 +81,10 @@ var Game = function() {
 					if(player.position > -8192.0 && player.velocity < 0.0 && Fract(player.position) <= 0.03125) {
 						if(player.position.toFixed(0) == neededHeight) {
 							if(stamina > 0.0) {
-								this.log += `<tr><td>${(stamina + 10).toFixed(6)}</td></tr>`;
+								this.log += `<tr><td>${(stamina + 10).toFixed(6)}</td><td>${(1315.789429 - (stamina + 10)) / 10}</td></tr>`;
 							}
 							else {
-								this.log += `<tr><td>${stamina.toFixed(6)}</td></tr>`;
+								this.log += `<tr><td>${stamina.toFixed(6)}</td><td>0</td></tr>`;
 							}
 							endWhileLoop = true;
 						}
