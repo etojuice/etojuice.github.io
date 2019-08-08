@@ -44,9 +44,19 @@
 			<div id="output"></div>
 		</div>
 	</div>
-	<script type="text/javascript" src="script/game.js"></script>
+	<script type="text/javascript" src="script/player.js"></script>
+	<script type="text/javascript" src="script/game_pixelwalk.js"></script>
 	<script>
 		let mode = 0;
+
+		function StartGame(gameMode) {
+			let output = document.getElementById("output");
+
+			let game = new Game();
+			game.Run(gameMode);
+
+			output.innerHTML = game.log;
+		}
 
 		let UpdateContent = () =>  {
 			document.getElementsByClassName("panel-lower")[0].style.display = (mode == 1) ? "block" : "none";
@@ -69,15 +79,6 @@
 
 			UpdateContent();
 		});
-
-		function StartGame(gameMode) {
-			let output = document.getElementById("output");
-
-			let game = new Game();
-			game.Run(gameMode);
-
-			output.innerHTML = game.log;
-		}
 	</script>
 </body>
 </html>

@@ -1,51 +1,5 @@
-function Fract(val) {
-	return val - Math.floor(val);
-}
-
-let Player = function(game) {
-	this.velocity = 0.0;
-	this.stamina = 0.0;
-	this.position = 0.0;
-	this.frametime = 0.01;
-	this.ducking = false;
-	this.maxvelocity = 2000.0;
-
-	this.Jump = function() {
-		this.velocity = Math.fround(Math.sqrt(800*45*2));
-
-		if(this.stamina > 0.0) {
-			this.velocity *= (100.0 - this.stamina * 0.001 * 19.0) * 0.01;
-		}
-
-		this.velocity -= game.sv_gravity * this.frametime * 0.5;
-		this.stamina = 1315.789429;
-	}
-
-	this.DuckJump = function() {
-		this.position += 18.0;
-		this.velocity = -(game.sv_gravity * this.frametime * 0.5);
-		this.CheckVelocity();
-	}
-
-	this.AirMove = function() {
-		this.position = this.position + this.velocity * this.frametime;
-		this.velocity -= game.sv_gravity * this.frametime;
-		this.CheckVelocity();
-	}
-
-	this.CheckVelocity = function() {
-		if(this.velocity > this.maxvelocity) {
-			this.velocity = this.maxvelocity;
-		}
-		if(this.velocity < -this.maxvelocity) {
-			this.velocity = -this.maxvelocity;
-		}
-	}
-}
-
 let Game = function() {
 	this.history = [];
-	this.sv_gravity = 800.0;
 	this.log = "";
 	this.Run = function(mode) {
 		let player = new Player(this);
@@ -54,17 +8,17 @@ let Game = function() {
 		let minGravity = Number(inputGravity.min);
 		let maxGravity = Number(inputGravity.max);
 
-		this.sv_gravity = Number(inputGravity.value);
+		player.sv_gravity = Number(inputGravity.value);
 
-		if(this.sv_gravity > maxGravity) {
-			this.sv_gravity = maxGravity;
+		if(player.sv_gravity > maxGravity) {
+			player.sv_gravity = maxGravity;
 		}
 
-		if(this.sv_gravity < minGravity) {
-			this.sv_gravity = minGravity;
+		if(player.sv_gravity < minGravity) {
+			player.sv_gravity = minGravity;
 		}
 
-		this.log = `<span>sv_gravity: ${this.sv_gravity}</span>`;
+		this.log = `<span>sv_gravity: ${player.sv_gravity}</span>`;
 
 		switch(mode) {
 			case 1:
