@@ -2,73 +2,79 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Pixel walk calculator???</title>
+	<title>Pixelwalk calculator</title>
 	<link rel="stylesheet" href="css/style.css">
-	<script type="text/javascript" src="script/game.js"></script>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="main">
-			<h1>Pixel walk calculator???</h1>
+	<div>
+		<div class="content">
+			<h1>Pixelwalk calculator</h1>
 			<div class="panel">
-				<ul>
-					<li><input type="checkbox" name="" id="check1" class="checkLabel" onclick="SetMode(1)"><label class="panel-label" for="check1">Jump?</label></li>
-					<li><input type="checkbox" name="" id="check2" class="checkLabel" onclick="SetMode(2)"><label class="panel-label" for="check2">Fall?</label></li>
-					<li><input type="checkbox" name="" id="check3" class="checkLabel" onclick="SetMode(3)"><label class="panel-label" for="check3">Doubleduck?</label></li>
-					<li><button type="submit" class="btn" onclick="StartGame(gameMode)">Go?</button></li>
-				</ul>
-				<ul>
-				<li><input type="checkbox" name="" id="check4" class="checkLabel" onclick="SetMode(4)"><label class="panel-label" for="check4">Bruteforce height by stamina</label></li>
-				<li><input type="text" name="" id="input-height" placeholder="height"></li>
-				</ul>
+				<div style="display: inline-block;">
+					sv_gravity:
+					<input type="number" name="" id="input-gravity" value="800" min="10" max="4000">
+				</div>
 			</div>
-			<div id="output">Hi</div>
+			<div class="panel">
+				<div class="panel-upper">
+					<input type="radio" id="mode1" name="mode_select" checked>
+					<div class="menu-option">
+						<label for="mode1">Jump</label>
+					</div>
+					<input type="radio" id="mode2" name="mode_select">
+					<div class="menu-option">
+						<label for="mode2">Walk down</label>
+					</div>
+					<input type="radio" id="mode3" name="mode_select">
+					<div class="menu-option">
+						<label for="mode3">DuckJump</label>
+					</div>
+				</div>
+			</div>
+			<div class="panel">
+				<div class="panel-lower">
+					<div class="menu-option">
+						<a onclick="StartGame(4)">Find stamina values to reach height:</a>
+					</div>
+					<div style="display: inline-block;">
+						<input type="number" name="" id="input-height" placeholder="height" value="0" min="-8192" max="8192">
+					</div>
+				</div>	
+			</div>
+			<div id="output"></div>
 		</div>
 	</div>
+	<script type="text/javascript" src="script/game.js"></script>
 	<script>
-		var gameMode = 0;
-		SetMode(1);
+		let mode = 0;
 
-		function SetMode(check) {
-			gameMode = check;
+		let UpdateContent = () =>  {
+			document.getElementsByClassName("panel-lower")[0].style.display = (mode == 1) ? "block" : "none";
+			StartGame(mode);
+		};
 
-			var check1 = document.getElementById("check1");
-			var check2 = document.getElementById("check2");
-			var check3 = document.getElementById("check3");
-			var check4 = document.getElementById("check4");
+		window.addEventListener("DOMContentLoaded", () => {
+			let modeSelectButtons = document.getElementsByName("mode_select");
 
-			switch(check) {
-				case 1:
-					check1.checked = true;
-					check2.checked = false;
-					check3.checked = false;
-					check4.checked = false;
-					break;
-				case 2:
-					check1.checked = false;
-					check2.checked = true;
-					check3.checked = false;
-					check4.checked = false;
-					break;
-				case 3:
-					check1.checked = false;
-					check2.checked = false;
-					check3.checked = true;
-					check4.checked = false;
-					break;
-				case 4:
-					check1.checked = true;
-					check2.checked = false;
-					check3.checked = false;
-					check4.checked = true;
+			for (let i = 0; i < modeSelectButtons.length; i++) {
+				if (modeSelectButtons[i].checked) {
+					mode = i + 1;
+				}
+
+				modeSelectButtons[i].addEventListener("click", (e) => {
+					mode = Number(e.target.id.slice(4));
+					UpdateContent();
+				});
 			}
-		}
 
-		function StartGame(mode) {
-			var output = document.getElementById("output");
+			UpdateContent();
+		});
 
-			var game = new Game();
-			game.Run(mode);
+		function StartGame(gameMode) {
+			let output = document.getElementById("output");
+
+			let game = new Game();
+			game.Run(gameMode);
 
 			output.innerHTML = game.log;
 		}
