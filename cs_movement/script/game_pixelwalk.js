@@ -2,7 +2,7 @@ let Game = function() {
 	this.history = [];
 	this.log = "";
 	this.Run = function(mode) {
-		let player = new Player(this);
+		let player = new Player();
 
 		let inputGravity = document.getElementById("input-gravity");
 		let minGravity = Number(inputGravity.min);
